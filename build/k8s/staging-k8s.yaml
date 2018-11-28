@@ -26,8 +26,7 @@ spec:
       - name: gitlab-registry
       containers:
       - name: flask-api
-        # Replace with your project ID
-        image: registry.gitlab.com/vtomash/ci_cd1:latest
+        image: $IMAGE
         imagePullPolicy: Always
         resources:
           limits:
