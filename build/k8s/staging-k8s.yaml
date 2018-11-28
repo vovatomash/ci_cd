@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-api-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: flask-api
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flask-api-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flask-api
+    spec:
+      imagePullSecrets:
+      - name: gitlab-registry
+      containers:
+      - name: flask-api
+        # Replace with your project ID
+        image: registry.gitlab.com/vtomash/ci_cd1:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 150m
+            memory: 200Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
+        ports:
+        - containerPort: 5000
